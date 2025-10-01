@@ -11,7 +11,7 @@ jobs:
     steps:
 
       - uses: actions/checkout@v4
-        name: checkout the code
+      - name: checkout the code
         run: echo checkout the code successfully !
         with:
           first_name: Adithyan
