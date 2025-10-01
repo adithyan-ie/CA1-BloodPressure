@@ -7,19 +7,24 @@ on:
 
 jobs:
   build:
+    name: bp build
     runs-on: ubuntu-latest
     steps:
       - run: echo "The job is triggered by ${{github.event_name}} event".
+
       - name: checking out the code
         uses: actions/checkout@v5
 
-      - name: log the process
+      - name: list the code checkedout
         run: |
           ls ${{github.workspace}}
-      - run: echo "The job is ${{job.status}} successfully !"
+
+      - name: Job status
+        run: echo "The job is ${{job.status}} !"
         env:
           PROJECT_NAME: BloodPressure
+
       - name: upload the artifact
-        uses: actions/upload-artifact@v4
+        run: echo "yet to provide the input path"
 
 
