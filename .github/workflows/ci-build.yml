@@ -17,4 +17,6 @@ jobs:
         run: |
           ls ${{github.workspace}}
       - run: echo "The job is ${{job.status}} successfully !"
+        env:
+          PROJECT_NAME: BloodPressure
 
