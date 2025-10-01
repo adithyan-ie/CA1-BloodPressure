@@ -9,9 +9,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
-      - uses: actions/checkout@v4
       - name: checkout the code
-        run: echo checkout the code successfully !
+      - uses: actions/checkout@v4
         with:
           first_name: Adithyan
+      - name: log the process
+        run: echo checkout the code successfully !
+
