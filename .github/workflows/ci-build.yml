@@ -19,4 +19,7 @@ jobs:
       - run: echo "The job is ${{job.status}} successfully !"
         env:
           PROJECT_NAME: BloodPressure
+      - name: upload the artifact
+        uses: actions/upload-artifact@v3
+
 
