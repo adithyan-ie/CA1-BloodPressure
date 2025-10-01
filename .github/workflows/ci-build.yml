@@ -1,4 +1,5 @@
 name: Blood pressure build
+run-name: ${{github.actor}} is running the continuous integration
 
 on:
   push:
@@ -7,11 +8,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: checkout the code
-      - uses: actions/checkout@v4
+      - run: echo "The job is triggered by ${{github.event_name}} event".
+      - name: checking out the code
+        uses: actions/checkout@v5
 
       - name: log the process
-        run: echo checkout the code successfully !
+        run: |
+          ls ${{github.workspace}}
+      - run: echo "The job is ${{job.status}} successfully !"
 
