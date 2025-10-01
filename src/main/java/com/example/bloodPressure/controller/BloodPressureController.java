@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-//@RequestMapping(value = "/api/v1")
 public class BloodPressureController {
 
     @Autowired
