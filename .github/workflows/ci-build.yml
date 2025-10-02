@@ -36,11 +36,8 @@ jobs:
       - name: upload the artifact
         uses: actions/upload-artifact@v4
         with:
-          name: package
+          name: bp-artifact
           path: release
-
-      - name: start the project
-        run: java -jar /target/*.jar
 
       - name: Job status
         run: echo "The job is ${{job.status}} !"
