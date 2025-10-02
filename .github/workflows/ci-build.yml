@@ -24,12 +24,17 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: 17
+          cache: maven
+          distribution: temurin
+
+      - name: Build with maven
+        run: mvn clean package
 
       - name: copy artificat into release folder
         run: mkdir release && cp target/*.jar release
 
       - name: upload the artifact
-        uses: actions/upload-artiface@v5
+        uses: actions/upload-artifact@v5
         with:
           name: package
           path: release
