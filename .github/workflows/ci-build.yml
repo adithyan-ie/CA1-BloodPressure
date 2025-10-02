@@ -19,12 +19,25 @@ jobs:
         run: |
           ls ${{github.workspace}}
 
-      - name: Job status
-        run: echo "The job is ${{job.status}} !"
-        env:
-          PROJECT_NAME: BloodPressure
+
+      - name: setup java and build project
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+
+      - name: copy artificat into release folder
+        run: mkdir release && cp target/*.jar release
 
       - name: upload the artifact
-        run: echo "yet to provide the input path"
+        uses: actions/upload-artiface@v5
+        with:
+          name: package
+          path: release
+
+      - name: Job status
+          run: echo "The job is ${{job.status}} !"
+          env:
+            PROJECT_NAME: BloodPressure
+
 
 
