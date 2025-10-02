@@ -35,9 +35,7 @@ jobs:
           path: release
 
       - name: Job status
-          run: echo "The job is ${{job.status}} !"
-          env:
-            PROJECT_NAME: BloodPressure
+        run: echo "The job is ${{job.status}} !"
 
 
 
