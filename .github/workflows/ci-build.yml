@@ -40,7 +40,7 @@ jobs:
           path: release
 
       - name: start the project
-        run: java -jar /release/bloodpressure-0.0.1-SNAPSHOT.jar
+        run: java -jar /target/bloodpressure-0.0.1-SNAPSHOT.jar
 
       - name: Job status
         run: echo "The job is ${{job.status}} !"
