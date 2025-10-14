@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Pressure Telemetry</title>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f8fafc;
+            color: #111827;
+            margin: 0;
+            padding: 40px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            padding: 24px;
+        }
+        h1 {
+            color: #0ea5e9;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        .reading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .reading .value {
+            font-size: 32px;
+            font-weight: bold;
+        }
+        .category {
+            font-weight: 600;
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 14px;
+        }
+        .cat-normal { background: #dcfce7; color: #166534; }
+        .cat-elev { background: #fef9c3; color: #854d0e; }
+        .cat-stage1 { background: #fed7aa; color: #7c2d12; }
+        .cat-stage2 { background: #fecaca; color: #991b1b; }
+        .cat-crisis { background: #fca5a5; color: #7f1d1d; }
+        .chart-box {
+            margin-top: 24px;
+        }
+        canvas {
+            width: 100%;
+            height: 280px;
+        }
+        .footer-note {
+            margin-top: 18px;
+            font-size: 13px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" th:object="${bp}">
+    <h1>Blood Pressure Telemetry Dashboard</h1>
+
+    <div class="reading">
+        <div>
+            <h1>Latest Reading</h1>
+            <div class="value"> systolic: <span th:text="${bp.systolic}"></span></div>
+            <div class="value">diastolic: <span th:text="${bp.diastolic}"></span></div>
+            <div class="value">category: <span th:text="${bp.category}"></span></div>
+        </div>
+    </div>
+
+    <div class="chart-box">
+        <canvas id="bpChart"></canvas>
+    </div>
+
+    <div class="footer-note">
+        Category thresholds follow AHA guidelines. Hypertensive crisis indicates readings &gt;180 systolic or &gt;120 diastolic.
+    </div>
+</div>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+    const labels = /*[[${timestamps}]]*/ [];
+    const systolicData = /*[[${systolicList}]]*/ [];
+    const diastolicData = /*[[${diastolicList}]]*/ [];
+
+    console.log("Labels:", labels);
+    console.log("Systolic:", systolicData);
+    console.log("Diastolic:", diastolicData);
+
+    const ctx = document.getElementById('bpChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Systolic',
+                    data: systolicData,
+                    borderColor: '#3b82f6',
+                    tension: 0.3,
+                    borderWidth: 2,
+                    pointRadius: 3,
+                    fill: false
+                },
+                {
+                    label: 'Diastolic',
+                    data: diastolicData,
+                    borderColor: '#f97316',
+                    tension: 0.3,
+                    borderWidth: 2,
+                    pointRadius: 3,
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { labels: { color: '#111827' } },
+                title: { display: true, text: 'Blood Pressure Trend', font: { size: 16 } }
+            },
+            scales: {
+                y: { min: 40, max: 220, title: { display: true, text: 'mmHg' } },
+                x: { title: { display: true, text: 'Time' } }
+            }
+        }
+    });
+/*]]>*/
+</script>
+
+</body>
+</html>
