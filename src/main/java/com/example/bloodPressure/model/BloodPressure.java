@@ -3,6 +3,7 @@ package com.example.bloodPressure.model;
 public class BloodPressure {
     private int systolic;
     private int diastolic;
+    private String category;
 
     public int getSystolic() {
         return systolic;
@@ -21,5 +22,11 @@ public class BloodPressure {
     }
 
 
+    public String getCategory() {
+        return category;
+    }
 
+    public void setCategory(String category) {
+        this.category = category;
+    }
 }
