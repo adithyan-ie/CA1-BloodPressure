@@ -29,11 +29,11 @@ jobs:
         run: mvn clean test
 
       - name: Upload JUnit Test Reports
-          uses: actions/upload-artifact@v4
-          with:
-            name: junit-reports
-            path: target/surefire-reports/*.xml
-            if-no-files-found: ignore
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-reports
+          path: target/surefire-reports/*.xml
+          if-no-files-found: ignore
 
       - name: Generate JaCoCo Coverage Report
         run: mvn jacoco:report
