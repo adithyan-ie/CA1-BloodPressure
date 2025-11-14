@@ -28,13 +28,13 @@ jobs:
         - name: Run Dependency Check (Docker)
           run: |
             docker run --rm \
-              -e DEPENDENCY_CHECK_NVD_API_KEY="${{ secrets.NVD_API_KEY }}" \
               -v ${{ github.workspace }}:/src \
               owasp/dependency-check:latest \
               --scan /src \
               --format HTML \
               --project "bp-java-app" \
               --out /src/dependency-check-report
+              --nvdApiKey "${{ secrets.NVD_API_KEY }}"
               --noupdate
 
         - name: Run dependency check
