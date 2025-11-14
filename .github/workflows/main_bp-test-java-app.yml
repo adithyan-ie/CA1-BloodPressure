@@ -9,8 +9,28 @@ on:
       - main
   workflow_dispatch:
 
+stages
+  - test
+  - build
+
 jobs:
+
+  run_tests:
+    stage: test
+    script:
+      - mvn clean test
+    artifactss:
+      reports:
+        junit: target/surefire-reports/*.xml
+        coverage_report:
+          coverage_format: cobertura
+          path: target/site/jacoco/jacoco.xml
+      paths:
+        - target/surefire-reports/
+        - target/site/jacoco/
+
   build:
+    stage: build
     runs-on: windows-latest
     permissions:
       contents: read #This is required for actions/checkout
