@@ -35,6 +35,7 @@ jobs:
               --format HTML \
               --project "bp-java-app" \
               --out /src/dependency-check-report
+              --noupdate
 
         - name: Run dependency check
           run: |
