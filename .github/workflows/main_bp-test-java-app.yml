@@ -12,6 +12,38 @@ on:
 
 jobs:
 
+  dependency-check:
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+
+        - name: Set up JDK 17
+          uses: actions/setup-java@v4
+          with:
+            distribution: temurin
+            java-version: 17
+
+        - name: Install OWASP Dependency-Check
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y dependency-check
+
+        - name: Run dependency check
+          run: |
+            dependency-check --project "bp-java-app" \
+                             --scan . \
+                             --format HTML \
+                             --out dependency-check-report
+
+        - name: Upload vulnerability report
+          uses: actions/upload-artifact@v4
+          with:
+            name: dependency-check-report
+            path: dependency-check-report/
+
+
   run_tests:
     runs-on: ubuntu-latest
     steps:
