@@ -9,11 +9,12 @@ on:
       - main
   workflow_dispatch:
 
-stages
-  - test
-  - build
 
 jobs:
+
+  stages:
+    - test
+    - build
 
   run_tests:
     stage: test
