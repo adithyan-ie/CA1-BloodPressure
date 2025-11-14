@@ -13,7 +13,7 @@ on:
 jobs:
 
   run_tests:
-    runs-on: ubuntu-latesty
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
