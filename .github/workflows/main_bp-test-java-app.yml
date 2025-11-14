@@ -49,7 +49,6 @@ jobs:
             name: dependency-check-report
             path: dependency-check-report/
 
-
   run_tests:
     needs : dependency-check
     runs-on: ubuntu-latest
