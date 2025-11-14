@@ -12,26 +12,43 @@ on:
 
 jobs:
 
-  stages:
-    - test
-    - build
-
   run_tests:
-    stage: test
+    runs-on: ubuntu-latesty
     script:
       - mvn clean test
-    artifactss:
-      reports:
-        junit: target/surefire-reports/*.xml
-        coverage_report:
-          coverage_format: cobertura
-          path: target/site/jacoco/jacoco.xml
-      paths:
-        - target/surefire-reports/
-        - target/site/jacoco/
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up java version
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'microsoft'
+
+      - name: Run Test
+        run: mvn clean test
+
+      - name: Upload JUnit Test Reports
+          uses: actions/upload-artifact@v4
+          with:
+            name: junit-reports
+            path: target/surefire-reports/*.xml
+            if-no-files-found: ignore
+
+      - name: Generate JaCoCo Coverage Report
+        run: mvn jacoco:report
+
+      - name: Upload JaCoCo coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: |
+            target/site/jacoco/jacoco.xml
+            target/site/jacoco/
+          if-no-files-found: ignore
 
   build:
-    stage: build
+    needs: run_tests
     runs-on: windows-latest
     permissions:
       contents: read #This is required for actions/checkout
@@ -46,7 +63,7 @@ jobs:
           distribution: 'microsoft'
 
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn clean package -DskipTests
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
