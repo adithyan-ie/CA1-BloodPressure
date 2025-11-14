@@ -25,10 +25,15 @@ jobs:
             distribution: temurin
             java-version: 17
 
-        - name: Install OWASP Dependency-Check
+        - name: Run Dependency Check (Docker)
           run: |
-            sudo apt-get update
-            sudo apt-get install -y dependency-check
+            docker run --rm \
+              -v ${{ github.workspace }}:/src \
+              owasp/dependency-check:latest \
+              --scan /src \
+              --format HTML \
+              --project "bp-java-app" \
+              --out /src/dependency-check-report
 
         - name: Run dependency check
           run: |
