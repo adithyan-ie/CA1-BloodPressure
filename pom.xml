@@ -110,46 +110,46 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<configuration>
-					<failBuildOnCVSS>7</failBuildOnCVSS>
-					<format>HTML</format>
-					<dataDirectory>${project.build.directory}/dependency-check-data</dataDirectory>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>com.github.spotbugs</groupId>
-				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>4.7.3.0</version>
-				<dependencies>
-					<dependency>
-						<groupId>com.h3xstream.findsecbugs</groupId>
-						<artifactId>findsecbugs-plugin</artifactId>
-						<version>1.12.0</version>
-					</dependency>
-				</dependencies>
-				<configuration>
-					<!-- Fail build on medium or high severity -->
-					<failOnError>true</failOnError>
-					<threshold>High</threshold>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>org.owasp</groupId>-->
+<!--				<artifactId>dependency-check-maven</artifactId>-->
+<!--				<configuration>-->
+<!--					<failBuildOnCVSS>7</failBuildOnCVSS>-->
+<!--					<format>HTML</format>-->
+<!--					<dataDirectory>${project.build.directory}/dependency-check-data</dataDirectory>-->
+<!--				</configuration>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<goals>-->
+<!--							<goal>check</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
+<!--			<plugin>-->
+<!--				<groupId>com.github.spotbugs</groupId>-->
+<!--				<artifactId>spotbugs-maven-plugin</artifactId>-->
+<!--				<version>4.7.3.0</version>-->
+<!--				<dependencies>-->
+<!--					<dependency>-->
+<!--						<groupId>com.h3xstream.findsecbugs</groupId>-->
+<!--						<artifactId>findsecbugs-plugin</artifactId>-->
+<!--						<version>1.12.0</version>-->
+<!--					</dependency>-->
+<!--				</dependencies>-->
+<!--				<configuration>-->
+<!--					&lt;!&ndash; Fail build on medium or high severity &ndash;&gt;-->
+<!--					<failOnError>true</failOnError>-->
+<!--					<threshold>High</threshold>-->
+<!--				</configuration>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<goals>-->
+<!--							<goal>check</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
 		</plugins>
 
 	</build>

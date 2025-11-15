@@ -25,6 +25,29 @@ jobs:
             distribution: temurin
             java-version: 17
 
+        - name: Cache Maven
+          uses: actions/cache@v4
+          with:
+            path: ~/.m2/repository
+            key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+            restore-keys: |
+              ${{ runner.os }}-m2-
+
+        - name: Snyk Security Scan
+          uses: snyk/actions/maven@master
+          env:
+            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          with:
+            command: test
+            args: --severity-threshold=high
+
+        - name: Upload synk report
+          uses: actions/upload-artifact@v4
+          with:
+            name: dependency-report
+            path: |
+              target/synk
+
 #        - name: Run SpotBugs (with FindSecBugs)
 #          run: mvn -q clean verify -DskipTests=false
 #
@@ -35,23 +58,16 @@ jobs:
 #            path: |
 #              target/spotbugsXml.xml
 #              target/site/spotbugs.html
-        - name: Cache Maven
-          uses: actions/cache@v4
-          with:
-            path: ~/.m2/repository
-            key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-            restore-keys: |
-              ${{ runner.os }}-m2-
 
-        - name: Run owasp dependency check
-          run: mvn dependency-check:check -DskipTests=false
-
-        - name: Upload dependency report
-          uses: actions/upload-artifact@v4
-          with:
-            name: dependency-report
-            path: |
-              target/dependencyReport
+#        - name: Run owasp dependency check
+#          run: mvn dependency-check:check -DskipTests=false
+#
+#        - name: Upload dependency report
+#          uses: actions/upload-artifact@v4
+#          with:
+#            name: dependency-report
+#            path: |
+#              target/dependencyReport
 
   run_tests:
     needs : vulnerability-check
