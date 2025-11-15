@@ -140,18 +140,12 @@
 				<configuration>
 					<!-- Fail build on medium or high severity -->
 					<failOnError>true</failOnError>
-
-					<!-- Generate HTML reports -->
-					<htmlOutput>true</htmlOutput>
-
-					<!-- Optional: show only high/medium priority -->
-					 <threshold>High</threshold>
+					<threshold>High</threshold>
 				</configuration>
 				<executions>
 					<execution>
 						<goals>
 							<goal>check</goal>
-							<goal>spotbugs</goal>
 						</goals>
 					</execution>
 				</executions>
