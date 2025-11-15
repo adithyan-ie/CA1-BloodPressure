@@ -33,13 +33,17 @@ jobs:
             restore-keys: |
               ${{ runner.os }}-m2-
 
-        - name: Snyk Security Scan
-          uses: snyk/actions/maven@master
+        - name: Install Snyk CLI
+          run: npm install -g snyk
+
+        - name: Run Snyk Test
+          run: snyk test --all-projects --severity-threshold=high
           env:
             SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
           with:
             command: test
             args: --severity-threshold=high
+
 
         - name: Upload synk report
           uses: actions/upload-artifact@v4
