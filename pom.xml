@@ -118,6 +118,8 @@
 					<failBuildOnCVSS>7</failBuildOnCVSS>
 					<format>HTML</format>
 					<nvdApiKey>60b5fc8c-8264-4f68-9736-9990472a707e</nvdApiKey>
+					<autoUpdate>false</autoUpdate>
+					<dataDirectory>${project.build.directory}/dependency-check-data</dataDirectory>
 				</configuration>
 				<executions>
 					<execution>
