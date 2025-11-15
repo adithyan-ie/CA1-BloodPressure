@@ -111,6 +111,21 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>11.1.1</version>
+				<configuration>
+					<failBuildOnCVSS>7</failBuildOnCVSS>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
 				<version>4.7.3.0</version>
@@ -125,7 +140,7 @@
 					<!-- Fail build on medium or high severity -->
 					<failOnError>true</failOnError>
 
-					<!-- Generate XML + HTML reports -->
+					<!-- Generate HTML reports -->
 					<htmlOutput>true</htmlOutput>
 
 					<!-- Optional: show only high/medium priority -->

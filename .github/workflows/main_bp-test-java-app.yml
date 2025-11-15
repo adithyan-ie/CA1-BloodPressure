@@ -12,7 +12,7 @@ on:
 
 jobs:
 
-  dependency-check:
+  vulnerability-check:
       runs-on: ubuntu-latest
 
       steps:
@@ -36,8 +36,18 @@ jobs:
               target/spotbugsXml.xml
               target/site/spotbugs.html
 
+        - name: Run owasp dependency check
+          run: mvn dependency-check:check
+
+        - name: Upload dependency report
+            uses: actions/upload-artifact@v4
+            with:
+              name: dependency-report
+              path: |
+                target/dependencyReport.xml
+
   run_tests:
-    needs : dependency-check
+    needs : vulnerability-check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -94,22 +104,22 @@ jobs:
           name: java-app
           path: '${{ github.workspace }}/target/*.jar'
 
-  deploy:
-    runs-on: windows-latest
-    needs: build
-
-
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: java-app
-      
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: 'bp-test-java-app'
-          slot-name: 'Production'
-          package: '*.jar'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9C76509E88C34E8EB1B370CE0EC75F6A }}
+#  deploy:
+#    runs-on: windows-latest
+#    needs: build
+#
+#
+#    steps:
+#      - name: Download artifact from build job
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: java-app
+#
+#      - name: Deploy to Azure Web App
+#        id: deploy-to-webapp
+#        uses: azure/webapps-deploy@v3
+#        with:
+#          app-name: 'bp-test-java-app'
+#          slot-name: 'Production'
+#          package: '*.jar'
+#          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9C76509E88C34E8EB1B370CE0EC75F6A }}
