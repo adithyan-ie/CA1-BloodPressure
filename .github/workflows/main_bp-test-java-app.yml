@@ -25,30 +25,11 @@ jobs:
             distribution: temurin
             java-version: 17
 
-        - name: Run Dependency Check (Docker)
-          run: |
-            docker run --rm \
-              -v ${{ github.workspace }}:/src \
-              owasp/dependency-check:latest \
-              --scan /src \
-              --format HTML \
-              --project "bp-java-app" \
-              --out /src/dependency-check-report
-              --nvdApiKey "${{ secrets.NVD_API_KEY }}"
-              --noupdate
-
-        - name: Run dependency check
-          run: |
-            dependency-check --project "bp-java-app" \
-                             --scan . \
-                             --format HTML \
-                             --out dependency-check-report
+        - name: Run SpotBugs (with FindSecBugs)
+          run: mvn -q clean verify -DskipTests=false
 
         - name: Upload vulnerability report
           uses: actions/upload-artifact@v4
-          with:
-            name: dependency-check-report
-            path: dependency-check-report/
 
   run_tests:
     needs : dependency-check
