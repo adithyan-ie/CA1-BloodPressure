@@ -129,7 +129,7 @@
 					<htmlOutput>true</htmlOutput>
 
 					<!-- Optional: show only high/medium priority -->
-					<!-- <threshold>Medium</threshold> -->
+					 <threshold>High</threshold>
 				</configuration>
 				<executions>
 					<execution>
