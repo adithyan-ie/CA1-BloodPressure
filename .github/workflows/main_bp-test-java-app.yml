@@ -40,11 +40,11 @@ jobs:
           run: mvn dependency-check:check
 
         - name: Upload dependency report
-            uses: actions/upload-artifact@v4
-            with:
-              name: dependency-report
-              path: |
-                target/dependencyReport.xml
+          uses: actions/upload-artifact@v4
+          with:
+            name: dependency-report
+            path: |
+              target/dependencyReport.xml
 
   run_tests:
     needs : vulnerability-check
