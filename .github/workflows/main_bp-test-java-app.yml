@@ -30,6 +30,9 @@ jobs:
 
         - name: Upload vulnerability report
           uses: actions/upload-artifact@v4
+          with:
+            name: spotbug-report
+            path: target/spotbugs.xml
 
   run_tests:
     needs : dependency-check
