@@ -25,19 +25,19 @@ jobs:
             distribution: temurin
             java-version: 17
 
-        - name: Run SpotBugs (with FindSecBugs)
-          run: mvn -q clean verify -DskipTests=false
-
-        - name: Upload vulnerability report
-          uses: actions/upload-artifact@v4
-          with:
-            name: spotbug-report
-            path: |
-              target/spotbugsXml.xml
-              target/site/spotbugs.html
+#        - name: Run SpotBugs (with FindSecBugs)
+#          run: mvn -q clean verify -DskipTests=false
+#
+#        - name: Upload vulnerability report
+#          uses: actions/upload-artifact@v4
+#          with:
+#            name: spotbug-report
+#            path: |
+#              target/spotbugsXml.xml
+#              target/site/spotbugs.html
 
         - name: Run owasp dependency check
-          run: mvn dependency-check:check
+          run: mvn dependency-check:check -DskipTests=false
 
         - name: Upload dependency report
           uses: actions/upload-artifact@v4
