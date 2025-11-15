@@ -7,8 +7,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    types: [ opened, synchronize, reopened ]
   workflow_dispatch:
-
 
 jobs:
 
@@ -33,6 +34,12 @@ jobs:
             restore-keys: |
               ${{ runner.os }}-m2-
 
+        - name: Cache SonarQube packages
+          uses: actions/cache@v4
+          with:
+            path: ~/.sonar/cache
+            key: ${{ runner.os }}-sonar
+            restore-keys: ${{ runner.os }}-sonar
 
         - name: Run SpotBugs (with FindSecBugs)
           run: mvn -q clean verify -DskipTests=false
@@ -44,6 +51,11 @@ jobs:
             path: |
               target/spotbugsXml.xml
               target/site/spotbugs.html
+
+        - name: SonarQube Scan
+          uses: sonarsource/sonarqube-scan-action@master
+          env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   run_tests:
     needs : vulnerability-check
