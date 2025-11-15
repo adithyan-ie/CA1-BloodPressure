@@ -52,11 +52,11 @@ jobs:
               target/spotbugsXml.xml
               target/site/spotbugs.html
 
-        - name: Run sonar qube
+        - name: SonarQube Scan
+          uses: sonarsource/sonarqube-scan-action@master
           env:
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-            run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=adithyan-ie_blood-pressure-ca1
-
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} /
+            SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
   run_tests:
     needs : vulnerability-check
