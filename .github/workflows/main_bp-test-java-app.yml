@@ -45,16 +45,6 @@ jobs:
               target/spotbugsXml.xml
               target/site/spotbugs.html
 
-#        - name: Run owasp dependency check
-#          run: mvn dependency-check:check -DskipTests=false
-#
-#        - name: Upload dependency report
-#          uses: actions/upload-artifact@v4
-#          with:
-#            name: dependency-report
-#            path: |
-#              target/dependencyReport
-
   run_tests:
     needs : vulnerability-check
     runs-on: ubuntu-latest
