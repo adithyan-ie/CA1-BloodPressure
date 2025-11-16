@@ -53,11 +53,21 @@ jobs:
             target/spotbugsXml.xml
             target/site/spotbugs.html
 
+
       # 6️⃣ Debug JaCoCo XML (optional)
       - name: Verify Jacoco XML exists
         run: |
           echo "Looking for jacoco.xml:"
           find target -name jacoco.xml
+
+      - name: Upload JaCoCo coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: |
+            target/site/jacoco/jacoco.xml
+            target/site/jacoco/
+          if-no-files-found: ignore
 
       # 7️⃣ SonarCloud scan (build + coverage in ONE Maven run)
       - name: SonarCloud Scan
