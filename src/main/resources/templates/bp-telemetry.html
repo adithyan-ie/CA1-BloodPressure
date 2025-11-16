@@ -132,6 +132,16 @@
 
     <a href="javascript:history.back()" class="btn-back">← Back</a>
 
+    <form id="report" th:action="@{/download-report}" method="post" th:object="${bp}">
+        <input type="hidden" name="systolic"  th:value="${bp.systolic}">
+        <input type="hidden" name="diastolic" th:value="${bp.diastolic}">
+        <input type="hidden" name="category"  th:value="${bp.category}">
+    </form>
+
+    <button onclick="document.getElementById('report').submit()" class="btn-default">
+        Download Report
+    </button>
+
     <div class="chart-box">
         <canvas id="bpChart"></canvas>
     </div>

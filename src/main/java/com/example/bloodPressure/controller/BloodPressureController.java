@@ -3,6 +3,10 @@ package com.example.bloodPressure.controller;
 import com.example.bloodPressure.model.BloodPressure;
 import com.example.bloodPressure.service.BloodPressureService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -45,5 +49,17 @@ public class BloodPressureController {
         model.addAttribute("systolicList", systolicHistory);
         model.addAttribute("diastolicList", diastolicHistory);
         return "bp-telemetry";
+    }
+
+    @PostMapping("/download-report")
+    public ResponseEntity<byte[]> downloadReport(@ModelAttribute("bp") BloodPressure bp){
+        System.out.println("downloading report...!");
+        byte[] pdfBytes = bloodPressureService.generatePdf(bp);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("attachment", "bp-report.pdf");
+
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
     }
 }
