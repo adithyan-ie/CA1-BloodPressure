@@ -73,6 +73,9 @@ jobs:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           with:
             projectBaseDir: .
+            extraProperties: |
+              sonar.projectKey=adithyan-ie_blood-pressure-ca1
+              sonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
 
   run_tests:
     needs : vulnerability-check
