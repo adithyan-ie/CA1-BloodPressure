@@ -64,8 +64,8 @@ jobs:
             key: ${{ runner.os }}-sonar
             restore-keys: ${{ runner.os }}-sonar
 
-        - name: Run SonarQube Code coverage
-          run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Pcoverage
+#        - name: Run SonarQube Code coverage
+#          run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Pcoverage
 
         - name: SonarQube Scan
           uses: SonarSource/sonarqube-scan-action@v4 # Ex: v4.1.0 or sha1, See the latest version at https://github.com/marketplace/actions/official-sonarqube-scan
