@@ -68,9 +68,17 @@ jobs:
           run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Pcoverage
 
         - name: SonarQube Scan
+          uses: SonarSource/sonarqube-scan-action@v4 # Ex: v4.1.0 or sha1, See the latest version at https://github.com/marketplace/actions/official-sonarqube-scan
           env:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=adithyan-ie_blood-pressure-ca1
+            SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+
+#        - name: SonarQube Scan
+#          env:
+#            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#
+          #run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=adithyan-ie_blood-pressure-ca1
 #          run: mvn sonar:sonar \
 #            -Dsonar.projectKey=adithyan-ie_blood-pressure-ca1 \
 #            -Dsonar.projectName="Blood Pressure" \
