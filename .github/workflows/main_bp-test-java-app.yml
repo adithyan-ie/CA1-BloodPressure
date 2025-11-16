@@ -85,11 +85,11 @@ jobs:
         #  run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=adithyan-ie_blood-pressure-ca1
           run: mvn sonar:sonar \
             -Dsonar.projectKey=adithyan-ie_blood-pressure-ca1 \
+            -Dsonar.organization=adithyan-ie \
             -Dsonar.projectName="Blood Pressure" \
             -Dsonar.sources=src/main/java \
             -Dsonar.java.binaries=target/classes \
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
 
