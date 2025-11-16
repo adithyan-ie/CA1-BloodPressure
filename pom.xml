@@ -17,6 +17,7 @@
 		<java.version>17</java.version>
 		<sonar.organization>adithyan-ie</sonar.organization>
 		<sonar.projectKey>adithyan-ie_blood-pressure-ca1</sonar.projectKey>
+		<sonar.branch>main</sonar.branch>
 	</properties>
 	<dependencies>
 		<dependency>
