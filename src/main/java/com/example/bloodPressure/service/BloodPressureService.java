@@ -6,12 +6,16 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 
 @Service
 public class BloodPressureService {
+
+    @Autowired
+    private Document document;
 
     public String calculateBloodPressure(BloodPressure bloodPressure){
         // logic to calculate Bp
@@ -36,7 +40,6 @@ public class BloodPressureService {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         try {
-            Document document = new Document();
             PdfWriter.getInstance(document, out);
 
             document.open();
