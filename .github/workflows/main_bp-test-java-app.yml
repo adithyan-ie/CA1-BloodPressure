@@ -102,12 +102,15 @@ jobs:
       - name: Run Test
         run: mvn clean test
 
-      - name: Upload JUnit Test Reports
+      - name: Upload JUnit and Cucumber Test Reports
         uses: actions/upload-artifact@v4
         with:
           name: junit-reports
-          path: target/surefire-reports/*.xml
+          path: |
+            target/surefire-reports/*.xml
+            target/cucumber-html-report.html
           if-no-files-found: ignore
+
 
 
 

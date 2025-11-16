@@ -1,3 +1,5 @@
 https://www.baeldung.com/java-maven-owasp-dependency-check
 https://medium.com/@rahulsharan512/enhancing-code-security-how-to-integrate-snyk-sca-with-github-actions-f5e8e0995e8b
 https://docs.snyk.io/developer-tools/snyk-ci-cd-integrations/github-actions-for-snyk-setup-and-checking-for-vulnerabilities/snyk-maven-3-jdk-11-action
+
+https://www.browserstack.com/guide/what-is-ci-cd

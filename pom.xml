@@ -52,6 +52,26 @@
 			<artifactId>itextpdf</artifactId>
 			<version>5.5.13</version>
 		</dependency>
+
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>7.15.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-spring</artifactId>
+			<version>7.12.1</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- Cucumber JUnit Platform Engine (JUnit 5) -->
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit</artifactId>
+			<version>7.12.1</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
