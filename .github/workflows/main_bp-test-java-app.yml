@@ -86,6 +86,7 @@ jobs:
           run: mvn sonar:sonar \
             -Dsonar.projectKey=adithyan-ie_blood-pressure-ca1 \
             -Dsonar.organization=adithyan-ie \
+            -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.projectName="Blood Pressure" \
             -Dsonar.sources=src/main/java \
             -Dsonar.java.binaries=target/classes \
