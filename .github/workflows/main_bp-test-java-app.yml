@@ -34,13 +34,6 @@ jobs:
             restore-keys: |
               ${{ runner.os }}-m2-
 
-        - name: Cache SonarQube packages
-          uses: actions/cache@v4
-          with:
-            path: ~/.sonar/cache
-            key: ${{ runner.os }}-sonar
-            restore-keys: ${{ runner.os }}-sonar
-
         - name: Run SpotBugs (with FindSecBugs)
           run: mvn -q clean verify -DskipTests=false
 
@@ -64,6 +57,13 @@ jobs:
               target/site/jacoco/
             if-no-files-found: ignore
 
+        - name: Cache SonarQube packages
+          uses: actions/cache@v4
+          with:
+            path: ~/.sonar/cache
+            key: ${{ runner.os }}-sonar
+            restore-keys: ${{ runner.os }}-sonar
+
         - name: Run SonarQube Code coverage
           run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Pcoverage
 
@@ -75,7 +75,12 @@ jobs:
             projectBaseDir: .
             extraProperties: |
               sonar.projectKey=adithyan-ie_blood-pressure-ca1
+              sonar.projectName=Blood Pressure
+              sonar.sources=src/main/java
+              sonar.java.binaries=target/classes
               sonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+              sonar.verbose=true
+              sonar.forceAnalysis=true
 
   run_tests:
     needs : vulnerability-check
