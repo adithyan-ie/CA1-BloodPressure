@@ -8,8 +8,8 @@
 		<version>3.5.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>adithyan-</groupId>
-	<artifactId>ie_blood-pressure-ca1</artifactId>
+	<groupId>com.calculate</groupId>
+	<artifactId>bloodpressure</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>BloodPressure</name>
 	<description>Calculate Blood pressure</description>
