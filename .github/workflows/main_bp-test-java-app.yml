@@ -68,19 +68,16 @@ jobs:
           run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Pcoverage
 
         - name: SonarQube Scan
-          uses: sonarsource/sonarqube-scan-action@master
           env:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          with:
-            projectBaseDir: .
-            extraProperties: |
-              sonar.projectKey=adithyan-ie_blood-pressure-ca1
-              sonar.projectName=Blood Pressure
-              sonar.sources=src/main/java
-              sonar.java.binaries=target/classes
-              sonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-              sonar.verbose=true
-              sonar.forceAnalysis=true
+          run: mvn sonar:sonar \
+            -Dsonar.projectKey=adithyan-ie_blood-pressure-ca1 \
+            -Dsonar.projectName="Blood Pressure" \
+            -Dsonar.sources=src/main/java \
+            -Dsonar.java.binaries=target/classes \
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
   run_tests:
     needs : vulnerability-check
