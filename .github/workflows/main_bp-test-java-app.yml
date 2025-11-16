@@ -71,6 +71,8 @@ jobs:
           uses: sonarsource/sonarqube-scan-action@master
           env:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          with:
+            projectBaseDir: .
 
   run_tests:
     needs : vulnerability-check
