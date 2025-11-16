@@ -38,7 +38,7 @@ public class BloodPressureController {
         systolicHistory.add(bp.getSystolic());
         diastolicHistory.add(bp.getDiastolic());
         timestamps.add(String.format("%tR", new Date()));
-       bp.setCategory(bloodPressureResult);
+        bp.setCategory(bloodPressureResult);
         model.addAttribute("bp", bp);
         model.addAttribute("categoryClass", bloodPressureResult);
         model.addAttribute("timestamps", timestamps);
