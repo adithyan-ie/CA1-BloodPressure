@@ -52,6 +52,21 @@ jobs:
               target/spotbugsXml.xml
               target/site/spotbugs.html
 
+        - name: Generate JaCoCo Coverage Report
+          run: mvn jacoco:report
+
+        - name: Upload JaCoCo coverage
+          uses: actions/upload-artifact@v4
+          with:
+            name: jacoco-report
+            path: |
+              target/site/jacoco/jacoco.xml
+              target/site/jacoco/
+            if-no-files-found: ignore
+
+        - name: Run SonarQube Code coverage
+          run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Pcoverage
+
         - name: SonarQube Scan
           uses: sonarsource/sonarqube-scan-action@master
           env:
@@ -79,17 +94,7 @@ jobs:
           path: target/surefire-reports/*.xml
           if-no-files-found: ignore
 
-      - name: Generate JaCoCo Coverage Report
-        run: mvn jacoco:report
 
-      - name: Upload JaCoCo coverage
-        uses: actions/upload-artifact@v4
-        with:
-          name: jacoco-report
-          path: |
-            target/site/jacoco/jacoco.xml
-            target/site/jacoco/
-          if-no-files-found: ignore
 
   build:
     needs: run_tests
