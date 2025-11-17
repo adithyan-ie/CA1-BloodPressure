@@ -60,11 +60,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Run Test
-        run: mvn clean test
-
       - name: Run verify
-        run: mvn verify
+        run: mvn clean verify
 
       - name: Verify Jacoco XML exists
         run: |

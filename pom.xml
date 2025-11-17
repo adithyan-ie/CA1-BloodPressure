@@ -162,7 +162,6 @@
 						<configuration>
 							<projectName>Cucumber Reporting Example</projectName>
 							<outputDirectory>${project.build.directory}/cucumber-html-report</outputDirectory>
-							<inputDirectory>${project.build.directory}/cucumber.json</inputDirectory>
 							<jsonFiles>
 								<param>${project.build.directory}/cucumber.json</param>
 							</jsonFiles>
