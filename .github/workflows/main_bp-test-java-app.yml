@@ -57,6 +57,9 @@ jobs:
     needs: code-analysis
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Run Test
         run: mvn clean test
 
