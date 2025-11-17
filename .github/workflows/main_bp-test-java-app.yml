@@ -40,6 +40,9 @@ jobs:
       - name: Run test
         run: mvn clean test
 
+      - name: Check Cucumber JSON
+        run: ls -la target/cucumber.json
+
       # 7️⃣ SonarCloud scan
       - name: SonarCloud Scan
         env:
