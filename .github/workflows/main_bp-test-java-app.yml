@@ -37,11 +37,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-m2
 
-      # 7️⃣ SonarCloud scan (build + coverage in ONE Maven run)
+      # 7️⃣ SonarCloud scan
       - name: SonarCloud Scan
-        run: mvn -B compile sonar:sonar
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          mvn -B clean compile sonar:sonar \
+            -Dsonar.projectKey=adithyan-ie_blood-pressure-ca1 \
+            -Dsonar.organization=adithyan-ie \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.jacoco.reportPaths=target/jacoco.exec \
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
+            -Dsonar.java.binaries=target/classes \
+            -Dsonar.sources=src/main/java \
+            -Dsonar.projectName="Blood Pressure"
 
   test:
     needs: code-analysis
