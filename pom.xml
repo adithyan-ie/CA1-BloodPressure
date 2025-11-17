@@ -152,7 +152,6 @@
 				<groupId>net.masterthought</groupId>
 				<artifactId>maven-cucumber-reporting</artifactId>
 				<version>5.7.0</version>
-
 				<executions>
 					<execution>
 						<id>execution</id>
@@ -162,10 +161,10 @@
 						</goals>
 						<configuration>
 							<projectName>Cucumber Reporting Example</projectName>
-							<outputDirectory>${project.build.directory}/cucumber-report-html</outputDirectory>
+							<outputDirectory>${project.build.directory}/cucumber-html-report</outputDirectory>
 							<inputDirectory>${project.build.directory}/cucumber.json</inputDirectory>
 							<jsonFiles>
-								<param>**/*.json</param>
+								<param>${project.build.directory}/cucumber.json</param>
 							</jsonFiles>
 						</configuration>
 					</execution>
