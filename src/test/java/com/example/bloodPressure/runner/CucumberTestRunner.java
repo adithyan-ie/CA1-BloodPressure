@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @CucumberOptions(
         features = "src/test/resources/features",
         glue = "com.example.bloodPressure",
-        plugin = {"pretty", "summary","html:target/cucumber-html-report.html","json:target/cucumber.json"}
+        plugin = {"pretty", "summary","html:target/cucumber-html-reports.html","json:target/cucumber.json"}
 )
 @CucumberContextConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

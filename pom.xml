@@ -80,7 +80,7 @@
 		</dependency>
 		<dependency>
 			<groupId>net.masterthought</groupId>
-			<artifactId>cucumber-reporting</artifactId>
+			<artifactId>maven-cucumber-reporting</artifactId>
 			<version>5.7.0</version>
 		</dependency>
 	</dependencies>
@@ -170,6 +170,33 @@
 						<goals>
 							<goal>check</goal>
 						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>net.masterthought</groupId>
+				<artifactId>maven-cucumber-reporting</artifactId>
+				<version>5.7.0</version>
+				<executions>
+					<execution>
+						<id>execution</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<projectName>cucumberReporting</projectName>
+							<skip>false</skip>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<inputDirectory>${project.build.directory}</inputDirectory>
+							<jsonFiles>
+								<param>**/*.json</param>
+							</jsonFiles>
+							<mergeFeaturesById>false</mergeFeaturesById>
+							<mergeFeaturesWithRetest>false</mergeFeaturesWithRetest>
+							<checkBuildResult>true</checkBuildResult>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

@@ -37,12 +37,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-m2
 
-      - name: Run test
-        run: mvn clean test
-
-      - name: Check Cucumber JSON
-        run: ls -la target/cucumber.json
-
       # 7️⃣ SonarCloud scan
       - name: SonarCloud Scan
         env:
@@ -81,21 +75,15 @@ jobs:
         run: ls -la target/cucumber.json
 
       - name: Run verify
-        run: mvn verify
+        run: mvn verify -DskipTests
+
+      - name: Check Cucumber HTML
+        run: ls -la target/cucumber-html-reports.html
 
       - name: Verify Jacoco XML exists
         run: |
          echo "Looking for jacoco.xml:"
          find target -name jacoco.xml
-
-      - name: Verify test files exists
-        run: |
-          echo "Looking for cucumber report:"
-          find target -name cucumber-report-html.html
-          echo "Looking for cucumber json:"
-          find target -name cucumber.json
-          echo "Looking for surefire:"
-          find target -name surefire-reports
 
       - name: Upload JUnit and Cucumber Test Reports
         uses: actions/upload-artifact@v4
@@ -103,7 +91,7 @@ jobs:
           name: junit-reports
           path: |
             target/surefire-reports/*.xml
-            target/cucumber-html-report.html
+            target/cucumber-html-reports.html
 
       - name: Upload JaCoCo coverage
         uses: actions/upload-artifact@v4
