@@ -38,15 +38,10 @@ jobs:
             ${{ runner.os }}-m2
 
       # 7️⃣ SonarCloud scan (build + coverage in ONE Maven run)
-      - name: SonarCloud Scan (no mvn verify)
+      - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            mvn -B sonar:sonar
-            -Dsonar.projectKey=adithyan-ie_blood-pressure-ca1
-            -Dsonar.organization=adithyan-ie
 
   test:
     needs: code-analysis
