@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-analyze:
+  code-analysis:
     runs-on: ubuntu-latest
 
     steps:
@@ -42,7 +42,7 @@ jobs:
         run: |
           mvn -B clean verify \
             com.github.spotbugs:spotbugs-maven-plugin:check \
-            -DskipTests=true
+            -DskipTests=false
 
       # 5️⃣ Upload SpotBugs report (optional)
       - name: Upload SpotBugs reports
@@ -88,7 +88,7 @@ jobs:
 
 
   run_tests:
-    needs : build-and-analyze
+    needs : code-analysis
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -116,7 +116,7 @@ jobs:
 
   build:
     needs: run_tests
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     permissions:
       contents: read #This is required for actions/checkout
 
@@ -130,7 +130,7 @@ jobs:
           distribution: 'microsoft'
 
       - name: Build with Maven
-        run: mvn clean package -DskipTests
+        run: mvn clean package -DskipTests=true
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
