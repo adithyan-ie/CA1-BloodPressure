@@ -66,9 +66,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Check Cucumber JSON
-        run: ls -la target/cucumber.json
-
       - name: Cache Maven
         uses: actions/cache@v4
         with:
@@ -76,6 +73,12 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-m2
+
+      - name: Run test
+        run: mvn clean test
+
+      - name: Check Cucumber JSON
+        run: ls -la target/cucumber.json
 
       - name: Run verify
         run: mvn verify
