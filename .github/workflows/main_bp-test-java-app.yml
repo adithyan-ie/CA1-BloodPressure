@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  code-analysis_tests:
+  code-analysis:
     runs-on: ubuntu-latest
 
     steps:
@@ -37,31 +37,48 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-m2
 
+      # 7️⃣ SonarCloud scan (build + coverage in ONE Maven run)
+      - name: SonarCloud Scan (no mvn verify)
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            mvn -B sonar:sonar
+            -Dsonar.projectKey=adithyan-ie_blood-pressure-ca1
+            -Dsonar.organization=adithyan-ie
+
+  test:
+    needs: code-analysis
+    runs-on: ubuntu-latest
+    steps:
       - name: Run Test
         run: mvn clean test
 
-      # 4️⃣ Build project, run tests with JaCoCo, run SpotBugs, and generate coverage
-      - name: SpotBugs
-        run: |
-          mvn -B clean verify \
-            com.github.spotbugs:spotbugs-maven-plugin:check \
-            -DskipTests=true
+      - name: Run verify
+        run: mvn verify
 
-      # 5️⃣ Upload SpotBugs report (optional)
-      - name: Upload SpotBugs reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: spotbugs-report
-          path: |
-            target/spotbugsXml.xml
-            target/site/spotbugs.html
-
-
-      # 6️⃣ Debug JaCoCo XML (optional)
       - name: Verify Jacoco XML exists
         run: |
-          echo "Looking for jacoco.xml:"
-          find target -name jacoco.xml
+         echo "Looking for jacoco.xml:"
+         find target -name jacoco.xml
+
+      - name: Verify test files exists
+        run: |
+          echo "Looking for cucumber report:"
+          find target -name cucumber-report-html.html
+          echo "Looking for cucumber json:"
+          find target -name cucumber.json
+          echo "Looking for surefire:"
+          find target -name surefire-reports
+
+      - name: Upload JUnit and Cucumber Test Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-reports
+          path: |
+            target/surefire-reports/*.xml
+            target/cucumber-html-report.html
 
       - name: Upload JaCoCo coverage
         uses: actions/upload-artifact@v4
@@ -72,35 +89,9 @@ jobs:
             target/site/jacoco/
           if-no-files-found: ignore
 
-      - name: Upload JUnit and Cucumber Test Reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: junit-reports
-          path: |
-            target/surefire-reports/*.xml
-            target/cucumber-html-report.html
-          if-no-files-found: ignore
-
-      # 7️⃣ SonarCloud scan (build + coverage in ONE Maven run)
-      - name: SonarCloud Scan
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          mvn -B clean verify sonar:sonar \
-            -Dsonar.projectKey=adithyan-ie_blood-pressure-ca1 \
-            -Dsonar.organization=adithyan-ie \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.jacoco.reportPaths=target/jacoco.exec \
-            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
-            -Dsonar.java.binaries=target/classes \
-            -Dsonar.sources=src/main/java \
-            -Dsonar.projectName="Blood Pressure"
-
 
   build:
-    needs: code-analysis_tests
+    needs: test
     runs-on: ubuntu-latest
     permissions:
       contents: read #This is required for actions/checkout
