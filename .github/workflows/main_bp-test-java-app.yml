@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  code-analysis:
+  code-analysis_tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -69,6 +69,15 @@ jobs:
             target/site/jacoco/
           if-no-files-found: ignore
 
+      - name: Upload JUnit and Cucumber Test Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-reports
+          path: |
+            target/surefire-reports/*.xml
+            target/cucumber-html-report.html
+          if-no-files-found: ignore
+
       # 7️⃣ SonarCloud scan (build + coverage in ONE Maven run)
       - name: SonarCloud Scan
         env:
@@ -87,35 +96,8 @@ jobs:
             -Dsonar.projectName="Blood Pressure"
 
 
-  run_tests:
-    needs : code-analysis
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up java version
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'microsoft'
-
-      - name: Run Test
-        run: mvn clean test
-
-      - name: Upload JUnit and Cucumber Test Reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: junit-reports
-          path: |
-            target/surefire-reports/*.xml
-            target/cucumber-html-report.html
-          if-no-files-found: ignore
-
-
-
-
   build:
-    needs: run_tests
+    needs: code-analysis_tests
     runs-on: ubuntu-latest
     permissions:
       contents: read #This is required for actions/checkout
