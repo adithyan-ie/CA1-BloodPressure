@@ -39,7 +39,7 @@ jobs:
 
       # 7️⃣ SonarCloud scan (build + coverage in ONE Maven run)
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2
+        run: mvn -B compile sonar:sonar
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
