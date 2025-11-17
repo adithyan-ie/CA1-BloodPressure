@@ -85,12 +85,18 @@ jobs:
          echo "Looking for jacoco.xml:"
          find target -name jacoco.xml
 
-      - name: Upload JUnit and Cucumber Test Reports
+      - name: Upload JUnit Test Reports
         uses: actions/upload-artifact@v4
         with:
           name: junit-reports
           path: |
             target/surefire-reports/*.xml
+
+      - name: Upload Cucumber Test Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-report
+          path: |
             target/cucumber-html-reports.html
 
       - name: Upload JaCoCo coverage
