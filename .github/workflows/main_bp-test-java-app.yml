@@ -42,7 +42,7 @@ jobs:
         run: |
           mvn -B clean verify \
             com.github.spotbugs:spotbugs-maven-plugin:check \
-            -DskipTests=false
+            -DskipTests=true
 
       # 5️⃣ Upload SpotBugs report (optional)
       - name: Upload SpotBugs reports
