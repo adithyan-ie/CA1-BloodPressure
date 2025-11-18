@@ -32,7 +32,14 @@ jobs:
       - name: Start Bloodpressure App
         run: |
           nohup java -jar target/*.jar &
-          sleep 20
+          echo "Waiting for app to be ready..."
+          for i in {1..30}; do
+            if nc -z localhost 8080; then
+              echo "App is up!"
+              break
+            fi
+            sleep 2
+          done
 
       - name: Set up k6
         uses: grafana/setup-k6-action@v1

@@ -1,154 +1,154 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy JAR app to Azure Web App - bp-test-java-app
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    types: [opened, synchronize, reopened]
-  workflow_dispatch:
-
-jobs:
-  code-analysis:
-    runs-on: ubuntu-latest
-
-    steps:
-      # 1️⃣ Checkout code
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # required for Sonar blame info
-
-      # 2️⃣ Set up JDK 17
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 17
-
-      # 3️⃣ Cache Maven dependencies
-      - name: Cache Maven
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-m2
-
-      # 7️⃣ SonarCloud scan
-      - name: SonarCloud Scan
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          mvn -B clean compile sonar:sonar \
-            -Dsonar.projectKey=adithyan-ie_blood-pressure-ca1 \
-            -Dsonar.organization=adithyan-ie \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.jacoco.reportPaths=target/jacoco.exec \
-            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
-            -Dsonar.java.binaries=target/classes \
-            -Dsonar.sources=src/main/java \
-            -Dsonar.projectName="Blood Pressure"
-
-  test:
-    needs: code-analysis
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Cache Maven
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-m2
-
-      - name: Run test
-        run: mvn clean test
-
-      - name: Check Cucumber JSON
-        run: ls -la target/cucumber.json
-
-      - name: Run verify
-        run: mvn verify -DskipTests
-
-      - name: Check Cucumber HTML
-        run: ls -la target/cucumber-html-reports.html
-
-      - name: Verify Jacoco XML exists
-        run: |
-         echo "Looking for jacoco.xml:"
-         find target -name jacoco.xml
-
-      - name: Upload JUnit Test Reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: junit-reports
-          path: |
-            target/surefire-reports/*.xml
-
-      - name: Upload Cucumber Test Reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: cucumber-report
-          path: |
-            target/cucumber-html-reports.html
-
-      - name: Upload JaCoCo coverage
-        uses: actions/upload-artifact@v4
-        with:
-          name: jacoco-report
-          path: |
-            target/site/jacoco/jacoco.xml
-            target/site/jacoco/
-          if-no-files-found: ignore
-
-
-  build:
-    needs: test
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read #This is required for actions/checkout
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Java version
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'microsoft'
-
-      - name: Build with Maven
-        run: mvn clean package -DskipTests=true
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
-        with:
-          name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
-
-#  deploy:
-#    runs-on: windows-latest
-#    needs: build
+## Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+## More GitHub Actions for Azure: https://github.com/Azure/actions
 #
+#name: Build and deploy JAR app to Azure Web App - bp-test-java-app
+#
+#on:
+#  push:
+#    branches: [ main ]
+#  pull_request:
+#    types: [opened, synchronize, reopened]
+#  workflow_dispatch:
+#
+#jobs:
+#  code-analysis:
+#    runs-on: ubuntu-latest
 #
 #    steps:
-#      - name: Download artifact from build job
-#        uses: actions/download-artifact@v4
+#      # 1️⃣ Checkout code
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 0  # required for Sonar blame info
+#
+#      # 2️⃣ Set up JDK 17
+#      - name: Set up JDK
+#        uses: actions/setup-java@v4
+#        with:
+#          distribution: temurin
+#          java-version: 17
+#
+#      # 3️⃣ Cache Maven dependencies
+#      - name: Cache Maven
+#        uses: actions/cache@v4
+#        with:
+#          path: ~/.m2/repository
+#          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+#          restore-keys: |
+#            ${{ runner.os }}-m2
+#
+#      # 7️⃣ SonarCloud scan
+#      - name: SonarCloud Scan
+#        env:
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#        run: |
+#          mvn -B clean compile sonar:sonar \
+#            -Dsonar.projectKey=adithyan-ie_blood-pressure-ca1 \
+#            -Dsonar.organization=adithyan-ie \
+#            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+#            -Dsonar.host.url=https://sonarcloud.io \
+#            -Dsonar.jacoco.reportPaths=target/jacoco.exec \
+#            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
+#            -Dsonar.java.binaries=target/classes \
+#            -Dsonar.sources=src/main/java \
+#            -Dsonar.projectName="Blood Pressure"
+#
+#  test:
+#    needs: code-analysis
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#
+#      - name: Cache Maven
+#        uses: actions/cache@v4
+#        with:
+#          path: ~/.m2/repository
+#          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+#          restore-keys: |
+#            ${{ runner.os }}-m2
+#
+#      - name: Run test
+#        run: mvn clean test
+#
+#      - name: Check Cucumber JSON
+#        run: ls -la target/cucumber.json
+#
+#      - name: Run verify
+#        run: mvn verify -DskipTests
+#
+#      - name: Check Cucumber HTML
+#        run: ls -la target/cucumber-html-reports.html
+#
+#      - name: Verify Jacoco XML exists
+#        run: |
+#         echo "Looking for jacoco.xml:"
+#         find target -name jacoco.xml
+#
+#      - name: Upload JUnit Test Reports
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: junit-reports
+#          path: |
+#            target/surefire-reports/*.xml
+#
+#      - name: Upload Cucumber Test Reports
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: cucumber-report
+#          path: |
+#            target/cucumber-html-reports.html
+#
+#      - name: Upload JaCoCo coverage
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: jacoco-report
+#          path: |
+#            target/site/jacoco/jacoco.xml
+#            target/site/jacoco/
+#          if-no-files-found: ignore
+#
+#
+#  build:
+#    needs: test
+#    runs-on: ubuntu-latest
+#    permissions:
+#      contents: read #This is required for actions/checkout
+#
+#    steps:
+#      - uses: actions/checkout@v4
+#
+#      - name: Set up Java version
+#        uses: actions/setup-java@v4
+#        with:
+#          java-version: '17'
+#          distribution: 'microsoft'
+#
+#      - name: Build with Maven
+#        run: mvn clean package -DskipTests=true
+#
+#      - name: Upload artifact for deployment job
+#        uses: actions/upload-artifact@v4
 #        with:
 #          name: java-app
+#          path: '${{ github.workspace }}/target/*.jar'
 #
-#      - name: Deploy to Azure Web App
-#        id: deploy-to-webapp
-#        uses: azure/webapps-deploy@v3
-#        with:
-#          app-name: 'bp-test-java-app'
-#          slot-name: 'Production'
-#          package: '*.jar'
-#          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9C76509E88C34E8EB1B370CE0EC75F6A }}
+##  deploy:
+##    runs-on: windows-latest
+##    needs: build
+##
+##
+##    steps:
+##      - name: Download artifact from build job
+##        uses: actions/download-artifact@v4
+##        with:
+##          name: java-app
+##
+##      - name: Deploy to Azure Web App
+##        id: deploy-to-webapp
+##        uses: azure/webapps-deploy@v3
+##        with:
+##          app-name: 'bp-test-java-app'
+##          slot-name: 'Production'
+##          package: '*.jar'
+##          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9C76509E88C34E8EB1B370CE0EC75F6A }}
