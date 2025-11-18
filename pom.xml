@@ -173,35 +173,49 @@
 					</execution>
 				</executions>
 			</plugin>
-
-			<plugin>
-				<groupId>net.masterthought</groupId>
-				<artifactId>maven-cucumber-reporting</artifactId>
-				<version>5.7.0</version>
-				<executions>
-					<execution>
-						<id>execution</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<projectName>cucumberReporting</projectName>
-							<skip>false</skip>
-							<outputDirectory>${project.build.directory}</outputDirectory>
-							<inputDirectory>${project.build.directory}</inputDirectory>
-							<jsonFiles>
-								<param>**/*.json</param>
-							</jsonFiles>
-							<mergeFeaturesById>false</mergeFeaturesById>
-							<mergeFeaturesWithRetest>false</mergeFeaturesWithRetest>
-							<checkBuildResult>true</checkBuildResult>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 
 	</build>
+
+	<profiles>
+		<profile>
+			<id>cucumber-report</id>
+			<activation>
+				<file>
+					<exists>${project.build.directory}/cucumber.json</exists>
+				</file>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>net.masterthought</groupId>
+						<artifactId>maven-cucumber-reporting</artifactId>
+						<version>5.7.0</version>
+						<executions>
+							<execution>
+								<id>execution</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>generate</goal>
+								</goals>
+								<configuration>
+									<projectName>cucumberReporting</projectName>
+									<skip>false</skip>
+									<outputDirectory>${project.build.directory}</outputDirectory>
+									<inputDirectory>${project.build.directory}</inputDirectory>
+									<jsonFiles>
+										<param>**/*.json</param>
+									</jsonFiles>
+									<mergeFeaturesById>false</mergeFeaturesById>
+									<mergeFeaturesWithRetest>false</mergeFeaturesWithRetest>
+									<checkBuildResult>true</checkBuildResult>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
