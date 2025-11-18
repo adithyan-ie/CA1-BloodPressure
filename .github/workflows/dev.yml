@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy JAR app to Azure Web App - bp-test-java-app
+name: Scan, Run Unit and BDD Test and Build App
 
 on:
   push:
@@ -13,7 +13,6 @@ on:
 jobs:
   code-analysis:
     runs-on: ubuntu-latest
-
     steps:
       # 1️⃣ Checkout code
       - name: Checkout
@@ -73,7 +72,7 @@ jobs:
           name: dependency-check-report
           path: dependency-check-report
 
-  test:
+  run-test(Unit and BDD):
     needs: code-analysis
     runs-on: ubuntu-latest
     steps:
@@ -129,7 +128,7 @@ jobs:
           if-no-files-found: ignore
 
   build:
-    needs: test
+    needs: run-test(Unit and BDD)
     runs-on: ubuntu-latest
     permissions:
       contents: read #This is required for actions/checkout
