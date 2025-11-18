@@ -27,7 +27,7 @@ jobs:
             ${{ runner.os }}-m2
 
       - name: Build API
-        run: mvn clean package -DskipTests -Dspring-boot.repackage.skip=true
+        run: mvn clean package -DskipTests
 
       - name: Start Bloodpressure App
         run: |
