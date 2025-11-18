@@ -1,4 +1,4 @@
-name: Deploy JAR app to Azure Web App - bp-test-java-app
+name: Deploy BloodPressure app to Azure Web App - bp-test-java-app
 
 on:
   push:
