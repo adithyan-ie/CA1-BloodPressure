@@ -29,10 +29,6 @@ jobs:
           java-version: 17
         id: java
 
-      - name: Export JAVA_HOME
-        run: echo "JAVA_HOME=${{ steps.java.outputs.java-home }}" >> $GITHUB_ENV
-
-
       # 3️⃣ Cache Maven dependencies
       - name: Cache Maven
         uses: actions/cache@v4
@@ -69,6 +65,8 @@ jobs:
           format: "HTML"
           out: "dependency-check-report"
           args: "--failOnCVSS 7"
+        env:
+          JAVA_HOME: ${{ steps.java.outputs.java-home }}
 
       - name: Upload depedency analysis Report
         uses: actions/upload-artifact@v4
