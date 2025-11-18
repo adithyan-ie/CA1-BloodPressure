@@ -1,0 +1,38 @@
+name: k6 Performance Test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  k6:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+
+      - name: Build API
+        run: mvn clean install -DskipTests
+
+      - name: Start Bloodpressure App
+        run: |
+          nohup java -jar target/*.jar &
+          sleep 15
+
+      - name: Run k6 performance test
+        uses: grafana/k6-action@v0.5.0
+        with:
+          filename: k6/post-test.js
+          arguments: --out json=results.json
+
+      - name: Upload k6 results
+        uses: actions/upload-artifact@v4
+        with:
+          name: k6-results
+          path: results.json
