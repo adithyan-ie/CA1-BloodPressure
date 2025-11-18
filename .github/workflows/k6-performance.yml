@@ -52,21 +52,9 @@ jobs:
             k6/post-test.js
           flags: --out json=results.json
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-
-      - name: Install k6-to-html
-        run: npm install -g k6-to-html
-
-      - name: Generate HTML report
-        run: k6-to-html results.json -o k6-performance-report.html
-
       - name: Upload k6 results
         uses: actions/upload-artifact@v4
         with:
           name: k6-results
           path: |
             results.json
-            k6-performance-report.html
