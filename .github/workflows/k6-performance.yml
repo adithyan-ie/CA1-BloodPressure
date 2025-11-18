@@ -30,9 +30,10 @@ jobs:
 
       - name: Run k6 performance test
         uses: grafana/run-k6-action@v1
-        path: |
-          k6/post-test.js
-        flags: --out json=result.json
+        with:
+          path: |
+            k6/post-test.js
+          flags: --out json=results.json
 
       - name: Upload k6 results
         uses: actions/upload-artifact@v4
