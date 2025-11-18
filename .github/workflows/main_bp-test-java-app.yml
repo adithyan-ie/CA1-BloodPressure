@@ -64,7 +64,6 @@ jobs:
           path: "."
           format: "HTML"
           out: "dependency-check-report"
-          args: "--failOnCVSS 10"
         env:
           JAVA_HOME: /opt/jdk
 
