@@ -63,7 +63,7 @@ jobs:
           path: "."
           format: "HTML"
           out: "dependency-check-report"
-          fail_on_cvss: 7
+          args: "--failOnCVSS 7"
 
       - name: Upload depedency analysis Report
         uses: actions/upload-artifact@v4
