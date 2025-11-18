@@ -4,3 +4,5 @@ https://docs.snyk.io/developer-tools/snyk-ci-cd-integrations/github-actions-for-
 
 https://www.browserstack.com/guide/what-is-ci-cd
 https://www.busyqa.com/post/maven-cucumber-reporting-in-2022
+
+https://github.com/dependency-check/Dependency-Check_Action

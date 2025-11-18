@@ -1,8 +1,7 @@
-name: k6 Performance Test
-
+name: Perform necessary security tests
 on:
   push:
-    branches: [ "main" ]
+    branches: [ qa ]
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -52,7 +51,7 @@ jobs:
             k6/post-test.js
           flags: --out json=results.json
 
-      - name: Upload k6 results
+      - name: Upload k6 Performance results
         uses: actions/upload-artifact@v4
         with:
           name: k6-results
