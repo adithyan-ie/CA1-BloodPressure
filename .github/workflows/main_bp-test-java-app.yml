@@ -27,6 +27,11 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
+        id: java
+
+      - name: Export JAVA_HOME
+        run: echo "JAVA_HOME=${{ steps.java.outputs.java-home }}" >> $GITHUB_ENV
+
 
       # 3️⃣ Cache Maven dependencies
       - name: Cache Maven
