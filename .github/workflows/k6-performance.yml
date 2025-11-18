@@ -25,11 +25,14 @@ jobs:
           nohup java -jar target/*.jar &
           sleep 15
 
+      - name: Set up k6
+        uses: grafana/setup-k6-action@v1
+
       - name: Run k6 performance test
-        uses: grafana/k6-action@v0.5.0
-        with:
-          filename: k6/post-test.js
-          arguments: --out json=results.json
+        uses: grafana/run-k6-action@v1
+        path: |
+          k6/post-test.js
+        flags: --out json=result.json
 
       - name: Upload k6 results
         uses: actions/upload-artifact@v4
