@@ -72,7 +72,7 @@ jobs:
           name: dependency-check-report
           path: dependency-check-report
 
-  run-test(Unit and BDD):
+  run-test:
     needs: code-analysis
     runs-on: ubuntu-latest
     steps:
