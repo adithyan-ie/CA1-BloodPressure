@@ -145,10 +145,27 @@
 					<includes>
 						<include>**/*Test.java</include>
 						<include>**/*TestRunner.java</include>
+						<include>**/*E2ETest.java</include>
 					</includes>
 				</configuration>
 			</plugin>
-
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>3.1.2</version>
+				<executions>
+					<execution>
+						<id>generate-html-report</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report-only</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/site</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
@@ -209,23 +226,6 @@
 									<mergeFeaturesById>false</mergeFeaturesById>
 									<mergeFeaturesWithRetest>false</mergeFeaturesWithRetest>
 									<checkBuildResult>true</checkBuildResult>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-report-plugin</artifactId>
-						<version>3.1.2</version>
-						<executions>
-							<execution>
-								<id>generate-html-report</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>report-only</goal>
-								</goals>
-								<configuration>
-									<outputDirectory>${project.build.directory}/site</outputDirectory>
 								</configuration>
 							</execution>
 						</executions>
