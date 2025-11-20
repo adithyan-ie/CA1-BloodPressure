@@ -64,17 +64,6 @@ jobs:
           path: |
             results.json
 
-      - name: Allow ZAP to write output
-        run: sudo chmod -R a+w $GITHUB_WORKSPACE
-
-      - name: Run Penetration Test using OWASP ZAP
-        uses: zaproxy/action-full-scan@v0.6.0
-        with:
-          target: "http://localhost:8080"
-          cmd_options: >
-            --hook zap-scripts/post-api.py
-            -r zap-report.html
-
   zap-penetration-test:
     runs-on: ubuntu-latest
     needs: setup-app   # <--- reuse setup
