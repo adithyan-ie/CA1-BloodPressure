@@ -168,7 +168,7 @@ jobs:
             ${{ runner.os }}-m2
 
       - name: Build & Run E2E Tests
-        run: mvn clean verify -Dtest=com.example.bloodpressure.BloodPressureE2ETest
+        run: mvn clean verify
 
       - name: Upload E2E HTML Report
         uses: actions/upload-artifact@v4
