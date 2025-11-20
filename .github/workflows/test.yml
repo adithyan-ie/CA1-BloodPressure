@@ -27,9 +27,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-m2
 
-      - name: Build API
-        run: mvn clean package -DskipTests
-
 
 
   k6-performance-test:
@@ -39,6 +36,9 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Build API
+        run: mvn clean package -DskipTests
 
       - name: Start Bloodpressure App
         run: |
@@ -76,6 +76,9 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Build API
+        run: mvn clean package -DskipTests
 
       - name: Start Bloodpressure App
         run: |
