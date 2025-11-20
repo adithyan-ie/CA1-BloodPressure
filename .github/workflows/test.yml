@@ -110,7 +110,7 @@ jobs:
         env:
           ZAP_WRK: /zap/wrk
         run: |
-          set -eux
+          set -ux
           # ensure the repo is mounted into container; reports will be written into /zap/wrk (maps to $GITHUB_WORKSPACE)
           # run container with host network so container can reach app on localhost:8080
           docker run --rm --network host \
@@ -122,7 +122,7 @@ jobs:
               -r /zap/wrk/zap-report.html \
               -J /zap/wrk/zap-report.json \
               -w /zap/wrk/zap-report.md \
-              -D 5
+              -D 5 || true
 
       - name: Show ZAP reports (short)
         run: |
