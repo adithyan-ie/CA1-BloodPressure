@@ -11,7 +11,7 @@ import org.springframework.http.MediaType;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class BloodPressureE2ETest {
+class BloodPressureE2ETest {
 
     @LocalServerPort
     private int port;
@@ -21,7 +21,7 @@ public class BloodPressureE2ETest {
 
     @Test
     @DisplayName("Run E2E for calculating blood pressure")
-    public void testPostBloodPressure() {
+    void runE2ETestToCalculateBloodPressure() {
         String url = "http://localhost:" + port + "/bp";
 
         var requestBody = "{\"systolic\":120,\"diastolic\":80}";
