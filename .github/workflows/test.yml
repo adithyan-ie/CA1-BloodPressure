@@ -105,15 +105,14 @@ jobs:
       - name: Run Penetration Test using OWASP ZAP
         uses: zaproxy/action-full-scan@v0.6.0
         with:
-          target: ${{ needs.setup-app.outputs.app-url }}
+          target: "http://host.docker.internal:8080"
           cmd_options: >
             --hook zap-scripts/post-api.py
             -r $GITHUB_WORKSPACE/zap-report.html
-          token: ""
           allow_issue_writing: false
 
       - name: Upload ZAP report
         uses: actions/upload-artifact@v4
         with:
-          name: zap_html_report
+          name: zap-html-report
           path: ${{ github.workspace }}/zap-report.html
