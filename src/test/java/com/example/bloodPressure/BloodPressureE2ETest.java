@@ -1,5 +1,6 @@
 package com.example.bloodPressure;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +20,7 @@ public class BloodPressureE2ETest {
     private TestRestTemplate restTemplate;
 
     @Test
+    @DisplayName("Run E2E for calculating blood pressure")
     public void testPostBloodPressure() {
         String url = "http://localhost:" + port + "/bp";
 
