@@ -128,7 +128,7 @@ jobs:
           if-no-files-found: ignore
 
   build:
-    needs: run-test(Unit and BDD)
+    needs: run-test
     runs-on: ubuntu-latest
     permissions:
       contents: read #This is required for actions/checkout
