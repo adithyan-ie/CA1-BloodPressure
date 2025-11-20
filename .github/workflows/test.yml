@@ -109,14 +109,33 @@ jobs:
       - name: Allow ZAP to write output
         run: sudo chmod -R a+w $GITHUB_WORKSPACE
 
-      - name: Run Penetration Test using OWASP ZAP
-        uses: zaproxy/action-full-scan@v0.6.0
-        with:
-          target: "http://localhost:8080"
-          cmd_options: >
-            --hook zap-scripts/post-api.py
-            -r $GITHUB_WORKSPACE/zap-report.html
-          allow_issue_writing: false
+      - name: Pull ZAP Docker image
+        run: docker pull ghcr.io/zaproxy/zaproxy:stable
+
+      - name: Run ZAP Full Scan (Docker, host network)
+        env:
+          ZAP_WRK: /zap/wrk
+        run: |
+          set -eux
+          # ensure the repo is mounted into container; reports will be written into /zap/wrk (maps to $GITHUB_WORKSPACE)
+          # run container with host network so container can reach app on localhost:8080
+          docker run --rm --network host \
+            -v "${GITHUB_WORKSPACE}":/zap/wrk:rw \
+            ghcr.io/zaproxy/zaproxy:stable \
+            zap-full-scan.py \
+              -t "http://localhost:8080" \
+              --hook /zap/wrk/zap-scripts/post-api.py \
+              -r /zap/wrk/zap-report.html \
+              -J /zap/wrk/zap-report.json \
+              -w /zap/wrk/zap-report.md \
+              -D 5
+
+      - name: Show ZAP reports (short)
+        run: |
+          ls -la $GITHUB_WORKSPACE || true
+          test -f $GITHUB_WORKSPACE/zap-report.html || (echo "zap-report.html not found" && exit 1)
+          echo "Reports created: "
+          ls -l zap-report.* || true
 
       - name: Upload ZAP report
         uses: actions/upload-artifact@v4
