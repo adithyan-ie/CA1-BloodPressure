@@ -68,4 +68,4 @@ jobs:
           cmd_options: >
             -r zap-report.html
             -t 120
-            z "msg=/bp,method=POST,body={\"systolic\":120,\"diastolic\":80},headers={\"Content-Type\":\"application/json\"}"
+            -z "msg=/bp,method=POST,body={\"systolic\":120,\"diastolic\":80},headers={\"Content-Type\":\"application/json\"}"
