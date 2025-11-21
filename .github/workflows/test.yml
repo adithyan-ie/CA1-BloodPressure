@@ -177,4 +177,24 @@ jobs:
         with:
           name: e2e-html-report
           path: target/site/surefire-report.html
-          
+
+  deploy-test:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: test
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: java-app
+
+      - name: Deploy to Test Env
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'bp-test-java-app'
+          slot-name: 'test'
+          package: '*.jar'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9C76509E88C34E8EB1B370CE0EC75F6A }}
+
