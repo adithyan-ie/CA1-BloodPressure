@@ -5,3 +5,8 @@ server:
 spring:
   application:
     name: BloodPressure
+
+# Application Insights Instrumentation Key
+azure:
+  application-insights:
+    instrumentation-key: YOUR_INSTRUMENTATION_KEY
