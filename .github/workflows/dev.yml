@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy JAR app to Azure Web App - bp-test-java-app
+name: Scan, Run Unit and BDD Test and Build App
 
 on:
   push:
@@ -13,7 +13,6 @@ on:
 jobs:
   code-analysis:
     runs-on: ubuntu-latest
-
     steps:
       # 1️⃣ Checkout code
       - name: Checkout
@@ -73,7 +72,7 @@ jobs:
           name: dependency-check-report
           path: dependency-check-report
 
-  test:
+  run-test:
     needs: code-analysis
     runs-on: ubuntu-latest
     steps:
@@ -129,7 +128,7 @@ jobs:
           if-no-files-found: ignore
 
   build:
-    needs: test
+    needs: run-test
     runs-on: ubuntu-latest
     permissions:
       contents: read #This is required for actions/checkout
@@ -151,4 +150,24 @@ jobs:
         with:
           name: java-app
           path: '${{ github.workspace }}/target/*.jar'
+
+  deploy-dev:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: java-app
+
+      - name: Deploy to Development Env
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'bp-test-java-app'
+          slot-name: 'development'
+          package: '*.jar'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9C76509E88C34E8EB1B370CE0EC75F6A }}
 
