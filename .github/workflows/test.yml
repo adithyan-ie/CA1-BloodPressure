@@ -178,8 +178,14 @@ jobs:
           name: e2e-html-report
           path: target/site/surefire-report.html
 
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: java-app
+          path: '${{ github.workspace }}/target/*.jar'
+
   deploy-test:
-    needs: e2e-test
+    needs: [ zap-penetration-test, k6-performance-test, e2e-test ]
     runs-on: ubuntu-latest
     environment:
       name: test
