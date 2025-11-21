@@ -83,6 +83,17 @@
 			<artifactId>maven-cucumber-reporting</artifactId>
 			<version>5.7.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.microsoft.azure</groupId>
+			<artifactId>applicationinsights-spring-boot-starter</artifactId>
+			<version>2.6.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.microsoft.azure</groupId>
+			<artifactId>applicationinsights-logging-logback</artifactId>
+			<version>2.6.3</version>
+		</dependency>
 	</dependencies>
 
 	<build>
