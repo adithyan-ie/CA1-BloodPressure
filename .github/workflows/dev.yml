@@ -151,3 +151,23 @@ jobs:
           name: java-app
           path: '${{ github.workspace }}/target/*.jar'
 
+  deploy-dev:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: java-app
+
+      - name: Deploy to Development Env
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'bp-test-java-app'
+          slot-name: 'development'
+          package: '*.jar'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9C76509E88C34E8EB1B370CE0EC75F6A }}
+
