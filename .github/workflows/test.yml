@@ -179,7 +179,7 @@ jobs:
           path: target/site/surefire-report.html
 
   deploy-test:
-    needs: build
+    needs: e2e-test
     runs-on: ubuntu-latest
     environment:
       name: test
