@@ -184,7 +184,7 @@ jobs:
           name: java-app
           path: '${{ github.workspace }}/target/*.jar'
 
-  deploy:
+  deploy-qa:
     needs: [ zap-penetration-test, k6-performance-test, e2e-test ]
     runs-on: ubuntu-latest
     environment:

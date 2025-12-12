@@ -6,7 +6,7 @@ on:
 
 jobs:
 
-  deploy:
+  deploy-prod:
     runs-on: ubuntu-latest
     environment:
       name: production
