@@ -3,6 +3,8 @@ name: Deploy JAR app to Azure Web App - bp-test-java-app
 on:
   push:
     branches: [ release ]
+  pull_request:
+    branches: [ release ]
 
 jobs:
 
