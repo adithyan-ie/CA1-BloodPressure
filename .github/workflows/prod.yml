@@ -36,27 +36,27 @@ jobs:
           package: '*.jar'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_PROD }}
 
-#      # Health check before swapping
-#      - name: Smoke test on staging
-#        run: |
-#          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://bp-test-java-app-staging.azurewebsites.net/actuator/health)
-#          if [ "$STATUS" -ne 200 ]; then
-#            echo "❌ Smoke test failed"
-#            exit 1
-#          fi
-#          echo "✅ Staging slot healthy"
-#
-#      # Swap only if on release branch
-#      - name: Swap Staging → Production
-#        if: github.ref_name == 'release'
-#        uses: azure/cli@v2
-#        with:
-#          inlineScript: |
-#            echo "Swapping slots..."
-#            az webapp deployment slot swap \
-#              --name bp-test-java-app \
-#              --resource-group YOUR_RESOURCE_GROUP_NAME \
-#              --slot staging \
-#              --target-slot production
-#            echo "Swap complete"
+      # Health check before swapping
+      - name: Smoke test on staging
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://bp-test-java-app-staging.azurewebsites.net/actuator/health)
+          if [ "$STATUS" -ne 200 ]; then
+            echo "❌ Smoke test failed"
+            exit 1
+          fi
+          echo "✅ Staging slot healthy"
+
+      # Swap only if on release branch
+      - name: Swap Staging → Production
+        if: github.ref_name == 'release'
+        uses: azure/cli@v2
+        with:
+          inlineScript: |
+            echo "Swapping slots..."
+            az webapp deployment slot swap \
+              --name bp-test-java-app \
+              --resource-group YOUR_RESOURCE_GROUP_NAME \
+              --slot staging \
+              --target-slot production
+            echo "Swap complete"
             
