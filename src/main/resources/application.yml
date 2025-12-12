@@ -9,4 +9,8 @@ spring:
 # Application Insights Instrumentation Key
 azure:
   application-insights:
-    instrumentation-key: YOUR_INSTRUMENTATION_KEY
+    instrumentation-key: e1d805b6-8e24-4cbc-8a14-79dad611fc9d
+
+logging:
+  level:
+    root: info
