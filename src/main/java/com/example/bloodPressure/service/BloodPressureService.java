@@ -82,4 +82,16 @@ public class BloodPressureService {
 
         return out.toByteArray();
     }
+
+    public void codeSmellAndRefactored(){
+        try{
+            String username = "admin";
+            String password = "admin123";
+            log.info("password: {}",password);
+        }catch (Exception e){
+
+        }
+
+
+    }
 }
