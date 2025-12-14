@@ -8,17 +8,13 @@ import com.itextpdf.text.pdf.PdfWriter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockedConstruction;
-import org.mockito.Mockito;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.ByteArrayOutputStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -102,4 +98,31 @@ class BloodPressureServiceTest {
             }
         }
     }
+
+    @Test
+    void shouldExecuteWhenPasswordExists() {
+        BloodPressureService service = spy(bloodPressureService);
+
+        doReturn("secret").when(service).getPassword();
+
+        assertDoesNotThrow(() ->
+                service.codeSmellAndRefactored());
     }
+
+
+    @Test
+    void shouldLogAndRethrowException() {
+        BloodPressureService service = spy(bloodPressureService);
+
+        doThrow(new RuntimeException("env failure"))
+                .when(service).getPassword();
+
+        RuntimeException ex = assertThrows(
+                RuntimeException.class,
+                () -> service.codeSmellAndRefactored()
+        );
+
+        assertEquals("env failure", ex.getMessage());
+    }
+
+}

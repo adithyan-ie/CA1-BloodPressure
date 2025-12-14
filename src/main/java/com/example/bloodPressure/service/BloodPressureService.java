@@ -86,7 +86,7 @@ public class BloodPressureService {
     public void codeSmellAndRefactored(){
             String username = "admin";
         try{
-            String password = System.getenv("password");
+            String password = getPassword();
             if (password !=null){
                 log.info("password accepted !");
             }
@@ -95,7 +95,9 @@ public class BloodPressureService {
             log.error("refactored the code smell for user : {}",username);
             throw e;
         }
+    }
 
-
+    protected  String getPassword() {
+        return System.getenv("password");
     }
 }
