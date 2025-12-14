@@ -8,17 +8,13 @@ import com.itextpdf.text.pdf.PdfWriter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockedConstruction;
-import org.mockito.Mockito;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.ByteArrayOutputStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -40,8 +36,7 @@ class BloodPressureServiceTest {
         bloodPressure.setSystolic(53);
 
        String result =  bloodPressureService.calculateBloodPressure(bloodPressure);
-       assertThat(result).isNotEmpty();
-       assertThat(result).isEqualTo("Hypertensive Crisis (Consult your doctor immediately!)");
+       assertThat(result).isNotEmpty().isEqualTo("Hypertensive Crisis (Consult your doctor immediately!)");
     }
 
     @Test
@@ -53,8 +48,7 @@ class BloodPressureServiceTest {
         bloodPressure.setSystolic(0);
 
         String result =  bloodPressureService.calculateBloodPressure(bloodPressure);
-        assertThat(result).isNotEmpty();
-        assertThat(result).isEqualTo("Normal");
+        assertThat(result).isNotEmpty().isEqualTo("Normal");
     }
 
     @Test
@@ -66,8 +60,7 @@ class BloodPressureServiceTest {
         bloodPressure.setSystolic(-200);
 
         String result =  bloodPressureService.calculateBloodPressure(bloodPressure);
-        assertThat(result).isNotEmpty();
-        assertThat(result).isEqualTo("Normal");
+        assertThat(result).isNotEmpty().isEqualTo("Normal");
     }
 
     @Test
@@ -96,7 +89,6 @@ class BloodPressureServiceTest {
 
                 // Assert
                 assertNotNull(pdfBytes, "PDF byte array should not be null");
-                assertTrue(pdfBytes.length >= 0, "PDF byte array should have some length");
 
                 // Verify interactions
                 Document doc = document;
@@ -106,4 +98,31 @@ class BloodPressureServiceTest {
             }
         }
     }
+
+    @Test
+    void shouldExecuteWhenPasswordExists() {
+        BloodPressureService service = spy(bloodPressureService);
+
+        doReturn("secret").when(service).getPassword();
+
+        assertDoesNotThrow(() ->
+                service.codeSmellAndRefactored());
     }
+
+
+    @Test
+    void shouldLogAndRethrowException() {
+        BloodPressureService service = spy(bloodPressureService);
+
+        doThrow(new RuntimeException("env failure"))
+                .when(service).getPassword();
+
+        RuntimeException ex = assertThrows(
+                RuntimeException.class,
+                () -> service.codeSmellAndRefactored()
+        );
+
+        assertEquals("env failure", ex.getMessage());
+    }
+
+}

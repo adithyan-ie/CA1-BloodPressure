@@ -77,9 +77,27 @@ public class BloodPressureService {
             document.close();
             log.info("PDF generated successfully !");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception occurred, message : {}",e.getMessage());
         }
 
         return out.toByteArray();
+    }
+
+    public void codeSmellAndRefactored(){
+            String username = "admin";
+        try{
+            String password = getPassword();
+            if (password !=null){
+                log.info("password accepted !");
+            }
+            //log.info("password: {}",password); // sensitive information like password should not be logged
+        }catch (Exception e){
+            log.error("refactored the code smell for user : {}",username);
+            throw e;
+        }
+    }
+
+    protected  String getPassword() {
+        return System.getenv("password");
     }
 }
