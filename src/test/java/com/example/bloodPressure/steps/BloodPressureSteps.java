@@ -27,7 +27,6 @@ public class BloodPressureSteps {
     private BloodPressure bp;
     private Model model;
     private String viewName;
-    private String resultCategory;
 
     private TestRestTemplate restTemplate = new TestRestTemplate();
     private ResponseEntity<String> response;
@@ -57,7 +56,6 @@ public class BloodPressureSteps {
 
     @When("the user submits the blood pressure form")
     public void userSubmitsForm() {
-      //  response = restTemplate.postForEntity("http://localhost:" + port + "/bp",bp, String.class);
 
         MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
         form.add("systolic", String.valueOf(bp.getSystolic()));
@@ -81,7 +79,7 @@ public class BloodPressureSteps {
     @Then("the category should be {string}")
     public void categoryShouldBe(String expected) {
 
-        assertEquals(expected,"High Blood Pressure (Hypertension Stage 1)");
+    assertEquals("High Blood Pressure (Hypertension Stage 1)", expected);
         assertTrue(response.getBody().contains(expected),"Response body does not contain category" + expected);
     }
 
@@ -97,14 +95,14 @@ public class BloodPressureSteps {
 
     @Then("the system should return the {string} view")
     public void returnView(String expectedView) {
-        assertEquals(expectedView,"bp-telemetry");
+    assertEquals("bp-telemetry", expectedView);
         assertEquals(expectedView, viewName);
     }
 
     @Then("the stage2 category should be {string}")
     public void stage2CategoryShouldBe(String expected) {
 
-        assertEquals(expected,"High Blood Pressure (Hypertension Stage 2)");
+    assertEquals("High Blood Pressure (Hypertension Stage 2)", expected);
         assertTrue(response.getBody().contains(expected),"Response body does not contain category" + expected);
     }
 }
