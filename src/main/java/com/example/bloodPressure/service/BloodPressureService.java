@@ -77,7 +77,7 @@ public class BloodPressureService {
             document.close();
             log.info("PDF generated successfully !");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception occurred, message : {}",e.getMessage());
         }
 
         return out.toByteArray();
