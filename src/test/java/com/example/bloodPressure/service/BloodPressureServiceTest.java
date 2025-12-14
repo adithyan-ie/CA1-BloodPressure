@@ -40,8 +40,7 @@ class BloodPressureServiceTest {
         bloodPressure.setSystolic(53);
 
        String result =  bloodPressureService.calculateBloodPressure(bloodPressure);
-       assertThat(result).isNotEmpty();
-       assertThat(result).isEqualTo("Hypertensive Crisis (Consult your doctor immediately!)");
+       assertThat(result).isNotEmpty().isEqualTo("Hypertensive Crisis (Consult your doctor immediately!)");
     }
 
     @Test
@@ -53,8 +52,7 @@ class BloodPressureServiceTest {
         bloodPressure.setSystolic(0);
 
         String result =  bloodPressureService.calculateBloodPressure(bloodPressure);
-        assertThat(result).isNotEmpty();
-        assertThat(result).isEqualTo("Normal");
+        assertThat(result).isNotEmpty().isEqualTo("Normal");
     }
 
     @Test
@@ -66,8 +64,7 @@ class BloodPressureServiceTest {
         bloodPressure.setSystolic(-200);
 
         String result =  bloodPressureService.calculateBloodPressure(bloodPressure);
-        assertThat(result).isNotEmpty();
-        assertThat(result).isEqualTo("Normal");
+        assertThat(result).isNotEmpty().isEqualTo("Normal");
     }
 
     @Test
@@ -96,7 +93,6 @@ class BloodPressureServiceTest {
 
                 // Assert
                 assertNotNull(pdfBytes, "PDF byte array should not be null");
-                assertTrue(pdfBytes.length >= 0, "PDF byte array should have some length");
 
                 // Verify interactions
                 Document doc = document;

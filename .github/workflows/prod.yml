@@ -3,10 +3,12 @@ name: Deploy JAR app to Azure Web App - bp-test-java-app
 on:
   push:
     branches: [ release ]
+  pull_request:
+    branches: [ release ]
 
 jobs:
 
-  deploy:
+  deploy-prod:
     runs-on: ubuntu-latest
     environment:
       name: production
@@ -26,7 +28,7 @@ jobs:
         run: mvn clean package -DskipTests
 
       # Always deploy to staging slot first
-      - name: Deploy to Staging Slot
+      - name: Deploy to production Slot
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'bp-test-java-app'

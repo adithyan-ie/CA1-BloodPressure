@@ -6,11 +6,13 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 
+@Slf4j
 @Service
 public class BloodPressureService {
 
@@ -18,6 +20,7 @@ public class BloodPressureService {
     private Document document;
 
     public String calculateBloodPressure(BloodPressure bloodPressure){
+        log.info("Calculating blood pressure for inputs: systolic {} and diastolic {}", bloodPressure.getSystolic(),bloodPressure.getDiastolic());
         // logic to calculate Bp
         var systolic = bloodPressure.getSystolic();
         var diastolic = bloodPressure.getDiastolic();
@@ -36,7 +39,7 @@ public class BloodPressureService {
     }
 
     public byte[] generatePdf(BloodPressure bp) {
-
+        log.info("Generating report in PDF format...");
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         try {
@@ -72,11 +75,27 @@ public class BloodPressureService {
             document.add(new Paragraph("• Crisis: >180 / >120", normalFont));
 
             document.close();
-
+            log.info("PDF generated successfully !");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception occurred, message : {}",e.getMessage());
         }
 
         return out.toByteArray();
+    }
+
+    public void codeSmellAndRefactored(){
+            String username = "admin";
+        try{
+            String password = System.getenv("password");
+            if (password !=null){
+                log.info("password accepted !");
+            }
+            //log.info("password: {}",password); // sensitive information like password should not be logged
+        }catch (Exception e){
+            log.error("refactored the code smell for user : {}",username);
+            throw e;
+        }
+
+
     }
 }

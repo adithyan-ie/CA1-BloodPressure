@@ -184,7 +184,7 @@ jobs:
           name: java-app
           path: '${{ github.workspace }}/target/*.jar'
 
-  deploy-test:
+  deploy-qa:
     needs: [ zap-penetration-test, k6-performance-test, e2e-test ]
     runs-on: ubuntu-latest
     environment:
@@ -199,8 +199,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'bp-test-java-app'
-          slot-name: 'test'
+          app-name: 'blood-pressure-qa'
           package: '*.jar'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9C76509E88C34E8EB1B370CE0EC75F6A }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_TEST }}
 
