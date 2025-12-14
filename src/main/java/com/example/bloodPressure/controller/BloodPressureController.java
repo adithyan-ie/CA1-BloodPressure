@@ -26,7 +26,6 @@ public class BloodPressureController {
     private final List<String> timestamps = new ArrayList<>(List.of("08:00", "12:00", "16:00"));
 
 
-
     @Autowired
     private BloodPressureService bloodPressureService;
 
