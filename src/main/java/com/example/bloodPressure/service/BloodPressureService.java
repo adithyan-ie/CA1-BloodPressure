@@ -84,12 +84,16 @@ public class BloodPressureService {
     }
 
     public void codeSmellAndRefactored(){
-        try{
             String username = "admin";
-            String password = "admin123";
-            log.info("password: {}",password);
+        try{
+            String password = System.getenv("password");
+            if (password !=null){
+                log.info("password accepted !");
+            }
+            //log.info("password: {}",password); // sensitive information like password should not be logged
         }catch (Exception e){
-
+            log.error("refactored the code smell for user : {}",username);
+            throw e;
         }
 
 
