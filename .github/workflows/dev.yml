@@ -43,7 +43,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           mvn -B clean compile sonar:sonar \
-            -Dsonar.projectKey=adithyan-ie_blood-pressure-ca1 \
+            -Dsonar.projectKey=adithyan-ie_CA1-BloodPressure \
             -Dsonar.organization=adithyan-ie \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.host.url=https://sonarcloud.io \
@@ -51,7 +51,7 @@ jobs:
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
             -Dsonar.java.binaries=target/classes \
             -Dsonar.sources=src/main/java \
-            -Dsonar.projectName="Blood Pressure"
+            -Dsonar.projectName="CA1-BloodPressure"
 
       - name: Build project
         run: mvn -B clean install -DskipTests
